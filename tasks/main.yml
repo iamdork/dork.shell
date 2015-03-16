@@ -12,9 +12,18 @@
   - unzip
   - tar
 
+- name: create dork user
+  user:
+    name: "{{ dork_user }}"
+
 # ======================================================================
 # Copy ssh configuration file
 # ======================================================================
+- name: create ssh config directory
+  file:
+    path: /home/{{ dork_user }}/.ssh
+    state: directory
+    owner: "{{ dork_user }}"
 - name: copy ssh configuration
   copy:
     src: ssh-config
