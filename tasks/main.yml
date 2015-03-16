@@ -16,6 +16,11 @@
   user:
     name: "{{ dork_user }}"
 
+- name: add dork user to sudoers
+  lineinfile:
+    line: "{{ dork_user }}    ALL=(ALL)   NOPASSWD: ALL"
+    dest: /etc/sudoers
+
 # ======================================================================
 # Copy ssh configuration file
 # ======================================================================
