@@ -1,0 +1,76 @@
+# ======================================================================
+# Required software packages
+# ======================================================================
+- name: install required apt packages
+  yum:
+    name: "{{ item }}"
+  with_items:
+  - vim
+  - zsh
+  - git
+  - ctags
+  - unzip
+  - tar
+
+# ======================================================================
+# Copy ssh configuration file
+# ======================================================================
+- name: copy ssh configuration
+  copy:
+    src: ssh-config
+    dest: /home/{{ dork_user }}/.ssh/config
+
+# ======================================================================
+# Oh my ZSH
+# ======================================================================
+
+- name: clone oh-my-zsh repository
+  git:
+    accept_hostkey: yes
+    dest: /opt/oh-my-zsh
+    repo: git://github.com/robbyrussell/oh-my-zsh.git
+
+- name: change oh-my-zsh permissions
+  shell: chmod -R 755 /opt/oh-my-zsh
+
+- name: copy .zshrc
+  copy:
+    src: .zshrc
+    dest: /home/{{ dork_user }}/.zshrc
+    owner: "{{ dork_user }}"
+    group: "{{ dork_user }}"
+
+- name: copy .zshrc root
+  copy:
+    src: .zshrc
+    dest: /root/.zshrc
+
+- name: change users shell
+  shell: chsh -s /bin/zsh {{ item }}
+  with_items:
+  - "{{ dork_user }}"
+  - root
+
+# ======================================================================
+# VIM package
+# ======================================================================
+- name: Download the ultimate vim configuration.
+  git:
+    accept_hostkey: yes
+    dest: /opt/vim_runtime
+    repo: git://github.com/amix/vimrc.git
+
+- name: change vim_runtime permissions
+  shell: chmod 755 /opt/vim_runtime
+
+- name: copy .vimrc for dork user
+  copy:
+    src: .vimrc
+    dest: /home/{{ dork_user }}/.vimrc
+    owner: "{{ dork_user }}"
+    group: "{{ dork_user }}"
+
+- name: copy .vimrc for root
+  copy:
+    src: .vimrc
+    dest: /root/.vimrc
