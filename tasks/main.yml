@@ -24,7 +24,7 @@
 - name: enable ttys
   lineinfile:
     line: "Defaults !requiretty"
-    regex: "Defaults requiretty"
+    regexp: "Defaults requiretty"
     dest: /etc/sudoers
 
 # ======================================================================
