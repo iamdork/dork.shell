@@ -53,6 +53,11 @@
 - name: change oh-my-zsh permissions
   shell: chmod -R 755 /opt/oh-my-zsh
 
+- name: ignore filemode in oh-my-zsh
+  shell: git config core.filemode false
+  args:
+    chdir: /opt/oh-my-zsh
+
 - name: copy .zshrc
   copy:
     src: .zshrc
@@ -82,6 +87,11 @@
 
 - name: change vim_runtime permissions
   shell: chmod 755 /opt/vim_runtime
+
+- name: ignore filemode in amix/vimrc
+  shell: git config core.filemode false
+  args:
+    chdir: /opt/vim_runtime
 
 - name: copy .vimrc for dork user
   copy:
