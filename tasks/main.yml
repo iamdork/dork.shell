@@ -104,3 +104,20 @@
   copy:
     src: .vimrc
     dest: /root/.vimrc
+
+# ======================================================================
+# Git hook
+# ======================================================================
+- name: check if /var/source is a git repository
+  stat:
+    path: /var/source/.git
+  register: repo
+
+- name: install git hooks
+  copy:
+    src: switch-branch.sh
+    dest: /var/source/git/hooks/{{ item }}
+    mode: 0755
+  with_items:
+  - pre-checkout
+  - post-checkout
