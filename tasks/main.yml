@@ -115,9 +115,9 @@
 
 - name: install git hooks
   copy:
-    src: switch-branch.sh
+    src: update-dork.sh
     dest: /var/source/git/hooks/{{ item }}
     mode: 0755
   with_items:
-  - pre-checkout
+  - post-update 
   - post-checkout
