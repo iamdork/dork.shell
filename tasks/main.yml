@@ -116,8 +116,9 @@
 - name: install git hooks
   copy:
     src: update-dork.sh
-    dest: /var/source/git/hooks/{{ item }}
+    dest: /var/source/.git/hooks/{{ item }}
     mode: 0755
   with_items:
   - post-update 
   - post-checkout
+  when: repo.stat.isdir is defined and repo.stat.isdir
