@@ -108,17 +108,17 @@
 # ======================================================================
 # Git hook
 # ======================================================================
-- name: check if /var/source is a git repository
-  stat:
-    path: /var/source/.git
-  register: repo
+#- name: check if /var/source is a git repository
+  #stat:
+  #path: /var/source/.git
+    #register: repo
 
-- name: install git hooks
-  copy:
-    src: update-dork.sh
-    dest: /var/source/.git/hooks/{{ item }}
-    mode: 0755
-  with_items:
-  - post-update 
-  - post-checkout
-  when: repo.stat.isdir is defined and repo.stat.isdir
+  #- name: install git hooks
+  #copy:
+  #src: "{{ item }}.sh"
+    #dest: /var/source/.git/hooks/{{ item }}
+    #mode: 0755
+    #with_items:
+  #- post-commit
+  #- post-checkout
+  #when: repo.stat.isdir is defined and repo.stat.isdir
