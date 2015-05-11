@@ -12,34 +12,6 @@
   - unzip
   - tar
 
-- name: create dork user
-  user:
-    name: "{{ dork_user }}"
-
-- name: add dork user to sudoers
-  lineinfile:
-    line: "{{ dork_user }}    ALL=(ALL)   NOPASSWD: ALL"
-    dest: /etc/sudoers
-
-- name: enable ttys
-  lineinfile:
-    line: "Defaults !requiretty"
-    regexp: "Defaults requiretty"
-    dest: /etc/sudoers
-
-# ======================================================================
-# Copy ssh configuration file
-# ======================================================================
-- name: create ssh config directory
-  file:
-    path: /home/{{ dork_user }}/.ssh
-    state: directory
-    owner: "{{ dork_user }}"
-- name: copy ssh configuration
-  copy:
-    src: ssh-config
-    dest: /home/{{ dork_user }}/.ssh/config
-
 # ======================================================================
 # Oh my ZSH
 # ======================================================================
@@ -60,14 +32,14 @@
 
 - name: copy .zshrc
   copy:
-    src: .zshrc
+    src: dot_zshrc
     dest: /home/{{ dork_user }}/.zshrc
     owner: "{{ dork_user }}"
     group: "{{ dork_user }}"
 
 - name: copy .zshrc root
   copy:
-    src: .zshrc
+    src: dot_zshrc
     dest: /root/.zshrc
 
 - name: change users shell
@@ -95,30 +67,13 @@
 
 - name: copy .vimrc for dork user
   copy:
-    src: .vimrc
+    src: dot_vimrc
     dest: /home/{{ dork_user }}/.vimrc
     owner: "{{ dork_user }}"
     group: "{{ dork_user }}"
 
 - name: copy .vimrc for root
   copy:
-    src: .vimrc
+    src: dot_vimrc
     dest: /root/.vimrc
 
-# ======================================================================
-# Git hook
-# ======================================================================
-#- name: check if /var/source is a git repository
-  #stat:
-  #path: /var/source/.git
-    #register: repo
-
-  #- name: install git hooks
-  #copy:
-  #src: "{{ item }}.sh"
-    #dest: /var/source/.git/hooks/{{ item }}
-    #mode: 0755
-    #with_items:
-  #- post-commit
-  #- post-checkout
-  #when: repo.stat.isdir is defined and repo.stat.isdir
