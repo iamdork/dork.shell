@@ -1,6 +1,0 @@
-Host *
-  StrictHostKeyChecking no
-  UserKnownHostsFile /dev/null
-Host *.dork 172.17.*
-  ForwardAgent yes
-  User dork
