@@ -1,3 +1,16 @@
+- name: ensure the user exists
+  user:
+    name: "{{ shell_user }}"
+
+- name: set default user home directory
+  set_fact:
+    shell_user_home: /home/{{ shell_user }}
+
+- name: set root user home directory
+  set_fact:
+    shell_user_home: /{{ shell_user }}
+  when: shell_user == 'root'
+
 # ======================================================================
 # Required software packages
 # ======================================================================
@@ -11,6 +24,7 @@
   - ctags
   - unzip
   - tar
+  - wget
 
 # ======================================================================
 # Oh my ZSH
@@ -31,22 +45,21 @@
     chdir: /opt/oh-my-zsh
 
 - name: copy .zshrc
-  copy:
-    src: dot_zshrc
-    dest: /home/{{ dork_user }}/.zshrc
-    owner: "{{ dork_user }}"
-    group: "{{ dork_user }}"
+  template:
+    src: dot_zshrc.j2
+    dest: "{{ shell_user_home }}/.zshrc"
+    owner: "{{ shell_user }}"
+    group: "{{ shell_user }}"
+  when: shell_zsh_enabled
 
-- name: copy .zshrc root
-  copy:
-    src: dot_zshrc
-    dest: /root/.zshrc
+- file:
+    dest: "{{ shell_user_home }}/.zshrc"
+    state: absent
+  when: not shell_zsh_enabled
 
 - name: change users shell
-  shell: chsh -s /bin/zsh {{ item }}
-  with_items:
-  - "{{ dork_user }}"
-  - root
+  shell: chsh -s /bin/zsh {{ shell_user }}
+  when: shell_zsh_enabled
 
 # ======================================================================
 # VIM package
@@ -66,14 +79,14 @@
     chdir: /opt/vim_runtime
 
 - name: copy .vimrc for dork user
-  copy:
-    src: dot_vimrc
-    dest: /home/{{ dork_user }}/.vimrc
-    owner: "{{ dork_user }}"
-    group: "{{ dork_user }}"
+  template:
+    src: dot_vimrc.j2
+    dest: "{{ shell_user_home }}/.vimrc"
+    owner: "{{ shell_user }}"
+    group: "{{ shell_user }}"
+  when: shell_vim_enabled
 
-- name: copy .vimrc for root
-  copy:
-    src: dot_vimrc
-    dest: /root/.vimrc
-
+- file:
+    dest: "{{ shell_user_home }}/.vimrc"
+    state: absent
+  when: not shell_vim_enabled

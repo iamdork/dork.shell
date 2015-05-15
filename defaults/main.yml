@@ -1,0 +1,9 @@
+shell_user: root
+
+shell_zsh_git_prompt: yes
+
+shell_zsh_enabled: yes
+shell_vim_enabled: yes
+
+shell_zsh_theme: mrtazz
+shell_vim_theme: slate
