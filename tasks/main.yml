@@ -69,6 +69,7 @@
     accept_hostkey: yes
     dest: /opt/vim_runtime
     repo: git://github.com/amix/vimrc.git
+    version: 77dfcbd9a5df64c2d5442241d15e5469a25ede1f
 
 - name: change vim_runtime permissions
   shell: chmod 755 /opt/vim_runtime
