@@ -49,7 +49,6 @@
     src: dot_zshrc.j2
     dest: "{{ shell_user_home }}/.zshrc"
     owner: "{{ shell_user }}"
-    group: "{{ shell_user }}"
   when: shell_zsh_enabled
 
 - file:
@@ -84,7 +83,6 @@
     src: dot_vimrc.j2
     dest: "{{ shell_user_home }}/.vimrc"
     owner: "{{ shell_user }}"
-    group: "{{ shell_user }}"
   when: shell_vim_enabled
 
 - file:
