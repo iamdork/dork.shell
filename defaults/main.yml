@@ -1,4 +1,6 @@
 shell_user: root
+shell_git_user: False
+shell_git_mail: False
 
 shell_zsh_git_prompt: yes
 

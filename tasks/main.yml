@@ -89,3 +89,7 @@
     dest: "{{ shell_user_home }}/.vimrc"
     state: absent
   when: not shell_vim_enabled
+
+- lineinfile:
+    dest: /etc/ssh/sshd_config
+    line: AcceptEnv GIT_AUTHOR_EMAIL GIT_AUTHOR_NAME GIT_COMMITTER_NAME GIT_COMMITTER_EMAIL
